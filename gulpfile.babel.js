@@ -81,6 +81,11 @@ gulp.task('html',  () => {
     .pipe(gulp.dest('dist'));
 });
 
+gulp.task('audio', () => {
+  return gulp.src('app/sounds/**/*.mp3')
+    .pipe(gulp.dest('dist/sounds'))
+})
+
 gulp.task('chromeManifest', () => {
     return gulp.src('app/manifest.json')
     .pipe($.chromeManifest({
@@ -150,7 +155,7 @@ gulp.task('package', function () {
 gulp.task('build', (cb) => {
     runSequence(
         'lint', 'babel', 'browserify', 'chromeManifest',
-        ['html', 'images', 'extras'],
+        ['html', 'images', 'extras', 'audio'],
         'size', cb);
     });
 

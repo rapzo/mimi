@@ -4,8 +4,15 @@ const bookmark = require('./bookmark');
 const screenshot = require('./screenshot');
 const search = require('./search');
 const selfie = require('./selfie');
+const sounds = require('./sounds')
 
-const commands = [bookmark, screenshot, search, selfie];
+const commands = [
+  bookmark,
+  screenshot,
+  search,
+  selfie,
+  sounds
+];
 
 function isMimiCommand(transcript) {
     const prefix = ['ok', 'okay', 'hey'].join('|');
@@ -18,9 +25,7 @@ function getCommand(transcript) {
     return commands.find((command) => {
         return command.keywords.some((keyword) => {
             const re = new RegExp(`${keyword}(.*)`, 'i');
-            const result = re.exec(transcript);
-
-            return !!result;
+            return re.test(transcript);
         });
     });
 }
@@ -38,6 +43,7 @@ exports.execute = function execute(transcript) {
         if (!isMimiCommand(transcript)) { return reject(); }
 
         const command = getCommand(transcript);
+        console.log(command)
         command ? resolve(command.fn(transcript)) : reject();
     });
 }
