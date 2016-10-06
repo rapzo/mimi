@@ -4,20 +4,23 @@ const bookmark = require('./bookmark');
 const screenshot = require('./screenshot');
 const search = require('./search');
 const selfie = require('./selfie');
-const sounds = require('./sounds')
+const sounds = require('./sounds');
+const insults = require('./insults');
 
 const commands = [
   bookmark,
   screenshot,
   search,
   selfie,
-  sounds
+  sounds,
+  insults
 ];
 
 function isMimiCommand(transcript) {
     const prefix = ['ok', 'okay', 'hey'].join('|');
+    const ids = ['meetme', 'meet me', 'mimi', 'mini'].join('|');
 
-    const re = new RegExp(`(${prefix})?mimi(.*)`, 'i');
+    const re = new RegExp(`(${prefix})?${ids}(.*)`, 'i');
     return re.test(transcript);
 }
 

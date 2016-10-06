@@ -8,8 +8,13 @@ chrome.runtime.onInstalled.addListener(details => {
 
 chrome.commands.onCommand.addListener((command) => {
     if (command === 'activate-mimi') {
-        listener();
+        chrome.browserAction.setBadgeText({ text: ' ' });
+        chrome.browserAction.setBadgeBackgroundColor({ color: '#FF0000' });
+
+        listener().then(() => {
+            chrome.browserAction.setBadgeText({ text: '' });
+        }).catch(() => {
+            chrome.browserAction.setBadgeText({ text: '' });
+        });
     }
 });
-
-// console.log('\'Allo \'Allo! Event Page for Browser Action');

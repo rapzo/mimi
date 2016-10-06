@@ -1,41 +1,50 @@
 const commands = require('./commands');
+const mimi = require('./mimi');
 
 module.exports = function listen() {
-    console.log('listening...');
-    const SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
-    const SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
-    const SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
-    const grammar = `#JSGF V1.0; grammar keyword; public <keyword> = ${commands.getGrammar().join('|')};`;
-    const recognition = new SpeechRecognition();
-    const speechRecognitionList = new SpeechGrammarList();
-    speechRecognitionList.addFromString(grammar, 1);
-    recognition.grammars = speechRecognitionList;
-    recognition.lang = 'en-US';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
+    return new Promise((resolve, reject) => {
+        console.log('listening...');
+        mimi.get('hello').play();
 
-    recognition.start();
+        const SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        const SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
+        const SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
-    recognition.onresult = (event) => {
-        const speechResult = event.results[0][0];
+        const grammar = `#JSGF V1.0; grammar keyword; public <keyword> = ${commands.getGrammar().join('|')};`;
+        const recognition = new SpeechRecognition();
+        const speechRecognitionList = new SpeechGrammarList();
+        speechRecognitionList.addFromString(grammar, 1);
+        recognition.grammars = speechRecognitionList;
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
 
-        console.log(speechResult.transcript);
+        recognition.start();
 
-        commands.execute(speechResult.transcript, speechResult.confidence)
-            .then(() => console.log('action performed'))
-            .catch(() => console.log('I didnt recognise that command.'));
-    };
+        recognition.onresult = (event) => {
+            const speechResult = event.results[0][0];
 
-    recognition.onnomatch = () => {
-        console.log('I didnt recognise that command.');
-    };
+            console.log(speechResult.transcript);
+            commands.execute(speechResult.transcript, speechResult.confidence)
+                .then(() => resolve('action performed'))
+                .catch(() => {
+                    mimi.get('huh').play();
+                    reject('I didnt recognise that command.')
+                });
+        };
 
-    recognition.onspeechend = () => {
-        recognition.stop();
-    };
+        recognition.onnomatch = () => {
+            reject('I didnt recognise that command.');
+        };
 
-    recognition.onerror = (event) => {
-        console.log('Error occurred in recognition: ' + event.error);
-    };
+        recognition.onspeechend = () => {
+            recognition.stop();
+            resolve();
+        };
+
+        recognition.onerror = (event) => {
+            reject('Error occurred in recognition: ' + event.error);
+        };
+    });
 }
