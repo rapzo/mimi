@@ -1,11 +1,12 @@
-const SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
-const SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
-const SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+const commands = require('./commands');
 
-function listen() {
+module.exports = function listen() {
     console.log('listening...');
+    const SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+    const SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
+    const SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
-    const grammar = `#JSGF V1.0; grammar keyword; public <keyword> = ${commandGetGrammar().join('|')};`;
+    const grammar = `#JSGF V1.0; grammar keyword; public <keyword> = ${commands.getGrammar().join('|')};`;
     const recognition = new SpeechRecognition();
     const speechRecognitionList = new SpeechGrammarList();
     speechRecognitionList.addFromString(grammar, 1);
@@ -21,7 +22,7 @@ function listen() {
 
         console.log(speechResult.transcript);
 
-        commandExecute(speechResult.transcript, speechResult.confidence)
+        commands.execute(speechResult.transcript, speechResult.confidence)
             .then(() => console.log('action performed'))
             .catch(() => console.log('I didnt recognise that command.'));
     };

@@ -6,6 +6,25 @@ import del from 'del';
 import runSequence from 'run-sequence';
 import { stream as wiredep } from 'wiredep';
 
+var browserify = require('browserify');
+var babelify = require('babelify');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+
+var buildNumber = process.env.BUILD_NUMBER || 'TAG';
+
+function executeBrowserify(type) {
+    return browserify({
+        entries: [`./app/scripts.babel/${type}/index.js`],
+        debug: true,
+        transform: [babelify]
+    })
+    .bundle()
+    .pipe(source(`${type}.js`))
+    .pipe(buffer())
+    .pipe(gulp.dest('./app/scripts'));
+};
+
 const $ = gulpLoadPlugins();
 
 gulp.task('extras', () => (
@@ -88,6 +107,11 @@ gulp.task('babel', () => {
     .pipe(gulp.dest('app/scripts'));
 });
 
+
+gulp.task('browserify', () => {
+    return executeBrowserify('background');
+});
+
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
 gulp.task('watch', ['lint', 'babel'], () => {
@@ -125,7 +149,7 @@ gulp.task('package', function () {
 
 gulp.task('build', (cb) => {
     runSequence(
-        'lint', 'babel', 'chromeManifest',
+        'lint', 'babel', 'browserify', 'chromeManifest',
         ['html', 'images', 'extras'],
         'size', cb);
     });

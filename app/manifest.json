@@ -11,12 +11,7 @@
     "background": {
         "scripts": [
             "scripts/chromereload.js",
-            "scripts/background.js",
-            "scripts/commands/index.js",
-            "scripts/commands/bookmark.js",
-            "scripts/commands/screenshot.js",
-            "scripts/commands/search.js",
-            "scripts/listener.js"
+            "scripts/background.js"
         ]
     },
     "permissions": [
@@ -33,7 +28,9 @@
         "storage",
         "webNavigation",
         "webRequest",
-        "*://*.google.com/"
+        "*://*.google.com/",
+        "audioCapture",
+        "desktopCapture"
     ],
     "options_ui": {
         "page": "options.html",
@@ -76,13 +73,6 @@
                 "linux": "Ctrl+Shift+1"
             },
             "description": "Activate Mimi"
-        },
-        "activate-mimi-2": {
-            "suggested_key": {
-                "default": "Ctrl+Y",
-                "mac": "Ctrl+Y"
-            },
-            "description": "Activate Mimi2"
         }
     }
 }

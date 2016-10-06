@@ -24,7 +24,7 @@ function getCommand(transcript) {
     });
 }
 
-function commandGetGrammar() {
+exports.getGrammar = function getGrammar() {
     let items = ['mimi'];
     commands.forEach((item) => {
         items = _.concat(items, item.keywords);
@@ -32,7 +32,7 @@ function commandGetGrammar() {
     return items;
 }
 
-function commandExecute(transcript) {
+exports.execute = function execute(transcript) {
     return new Promise((resolve, reject) => {
         if (!isMimiCommand(transcript)) { reject(); }
 
