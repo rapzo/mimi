@@ -6,14 +6,6 @@ const search = require('./search');
 
 const commands = [bookmark, screenshot, search];
 
-function getGrammar() {
-    let items = ['mimi'];
-    commands.forEach((item) => {
-        items = _.concat(items, item.keywords);
-    });
-    return items;
-}
-
 function isMimiCommand(transcript) {
     const prefix = ['ok', 'okay', 'hey'].join('|');
 
@@ -32,7 +24,15 @@ function getCommand(transcript) {
     });
 }
 
-function execute(transcript) {
+function commandGetGrammar() {
+    let items = ['mimi'];
+    commands.forEach((item) => {
+        items = _.concat(items, item.keywords);
+    });
+    return items;
+}
+
+function commandExecute(transcript) {
     return new Promise((resolve, reject) => {
         if (!isMimiCommand(transcript)) { reject(); }
 
@@ -40,8 +40,3 @@ function execute(transcript) {
         command ? resolve(command.fn(transcript)) : reject();
     });
 }
-
-module.exports = {
-    getGrammar,
-    execute
-};

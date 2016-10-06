@@ -11,7 +11,12 @@
     "background": {
         "scripts": [
             "scripts/chromereload.js",
-            "scripts/background.js"
+            "scripts/background.js",
+            "scripts/commands/index.js",
+            "scripts/commands/bookmark.js",
+            "scripts/commands/screenshot.js",
+            "scripts/commands/search.js",
+            "scripts/listener.js"
         ]
     },
     "permissions": [
@@ -64,22 +69,20 @@
     "commands": {
         "activate-mimi": {
             "suggested_key": {
-                "default": "Ctrl+Shift+U",
-                "windows": "Ctrl+Shift+U",
-                "mac": "Command+Shift+U",
-                "chromeos": "Ctrl+Shift+U",
-                "linux": "Ctrl+Shift+U"
+                "default": "Ctrl+Shift+1",
+                "windows": "Ctrl+Shift+1",
+                "mac": "Command+Shift+1",
+                "chromeos": "Ctrl+Shift+1",
+                "linux": "Ctrl+Shift+1"
             },
-            "description": "Activate Mimi",
-            "global": true
+            "description": "Activate Mimi"
         },
         "activate-mimi-2": {
             "suggested_key": {
                 "default": "Ctrl+Y",
                 "mac": "Ctrl+Y"
             },
-            "description": "Activate Mimi2",
-            "global": true
+            "description": "Activate Mimi2"
         }
     }
 }

@@ -1,16 +1,11 @@
-'use strict';
-
-const commands = require('./commands');
-
 const SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
 const SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
 const SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
-const button = document.getElementById('jarvas-action');
-button.addEventListener('click', listen);
-
 function listen() {
-    const grammar = `#JSGF V1.0; grammar keyword; public <keyword> = ${commands.getGrammar().join('|')};`;
+    console.log('listening...');
+
+    const grammar = `#JSGF V1.0; grammar keyword; public <keyword> = ${commandGetGrammar().join('|')};`;
     const recognition = new SpeechRecognition();
     const speechRecognitionList = new SpeechGrammarList();
     speechRecognitionList.addFromString(grammar, 1);
@@ -26,7 +21,7 @@ function listen() {
 
         console.log(speechResult.transcript);
 
-        commands.execute(speechResult.transcript, speechResult.confidence)
+        commandExecute(speechResult.transcript, speechResult.confidence)
             .then(() => console.log('action performed'))
             .catch(() => console.log('I didnt recognise that command.'));
     };
