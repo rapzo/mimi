@@ -34,7 +34,7 @@ exports.getGrammar = function getGrammar() {
 
 exports.execute = function execute(transcript) {
     return new Promise((resolve, reject) => {
-        if (!isMimiCommand(transcript)) { reject(); }
+        if (!isMimiCommand(transcript)) { return reject(); }
 
         const command = getCommand(transcript);
         command ? resolve(command.fn(transcript)) : reject();

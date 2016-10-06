@@ -1,7 +1,9 @@
 function search(term) {
     return new Promise((resolve) => {
-        const url = term;
-        chrome.tabs.create({ url });
+        chrome.tabs.create({
+            url: `http://www.google.com/search?as_q=${term}`
+        });
+
         resolve(url);
     });
 }
