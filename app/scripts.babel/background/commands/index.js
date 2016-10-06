@@ -3,8 +3,9 @@ const _ = require('lodash');
 const bookmark = require('./bookmark');
 const screenshot = require('./screenshot');
 const search = require('./search');
+const selfie = require('./selfie');
 
-const commands = [bookmark, screenshot, search];
+const commands = [bookmark, screenshot, search, selfie];
 
 function isMimiCommand(transcript) {
     const prefix = ['ok', 'okay', 'hey'].join('|');
