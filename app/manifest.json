@@ -29,7 +29,6 @@
         "webNavigation",
         "webRequest",
         "*://*.google.com/",
-        "audioCapture",
         "desktopCapture"
     ],
     "options_ui": {

@@ -1,3 +1,7 @@
 'use strict';
 
-// console.log('\'Allo \'Allo! Option');
+navigator.webkitGetUserMedia(
+    { audio: true },
+    () => console.log('success'),
+    () => console.log('error')
+);
