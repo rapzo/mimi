@@ -5,13 +5,15 @@ const screenshot = require('./screenshot');
 const search = require('./search');
 const selfie = require('./selfie');
 const sounds = require('./sounds');
+const youtube = require('./youtube');
 
 const commands = [
   bookmark,
   screenshot,
   search,
   selfie,
-  sounds
+  sounds,
+  youtube
 ];
 
 function isMimiCommand(transcript) {

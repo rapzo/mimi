@@ -11,7 +11,7 @@ function search(term) {
 module.exports = {
     keywords: ['search'],
     fn: (transcript) => {
-        const result = /search(.*)/.exec(transcript);
+        const result = /search(.*)/i.exec(transcript);
 
         if (!result) {
             throw 'something went wrong';
