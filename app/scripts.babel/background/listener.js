@@ -36,7 +36,7 @@ module.exports = function listen() {
             dialog = window.open(
                 'popup.html',
                 'extension_popup',
-                'width=300,height=400,status=no,scrollbars=yes,resizable=no'
+                `width=300,height=${screen.height},status=no,scrollbars=yes,resizable=no`
             );
         }
 

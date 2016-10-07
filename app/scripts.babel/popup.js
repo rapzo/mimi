@@ -17,7 +17,7 @@ function update() {
     const isListening = localStorage.getItem('listening');
     const sentence = localStorage.getItem('sentence');
     const image = localStorage.getItem('image');
-    const value = isListening === 'true' ? 'LISTENING' : 'NAO TOU A OUVIR NAO TOU A OUVIR';
+    const value = isListening === 'true' ? 'Listening...' : 'Waiting..';
 
     element.innerHTML = value;
     if (sentence && previousSentence !== sentence) {
