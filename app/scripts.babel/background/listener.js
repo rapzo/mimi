@@ -5,7 +5,7 @@ module.exports = function listen() {
 
     return new Promise((resolve, reject) => {
         console.log('listening...');
-        mimi.get('hello').play();
+        // mimi.get('hello').play();
 
         const SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
         const SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
@@ -28,9 +28,10 @@ module.exports = function listen() {
             console.log(speechResult.transcript);
             commands.execute(speechResult.transcript, speechResult.confidence)
                 .then(() => resolve('action performed'))
-                .catch(() => {
+                .catch((err) => {
                     mimi.get('huh').play();
-                    reject('I didnt recognise that command.')
+                    console.log(err);
+                    reject('I didnt recognise that command. ', err);
                 });
         };
 
