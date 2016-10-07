@@ -20,11 +20,7 @@ function playRandomVideo(result) {
 module.exports = {
     keywords: ['youtube'],
     fn: (transcript) => {
-        const result = /youtube(.*)/i.exec(transcript);
-        if (!result) {
-            throw 'something went wrong';
-        }
-
-        return queryYoutube(result[1]).then(playRandomVideo);
+        const result = /play(.*)/i.exec(transcript);
+        return result ? queryYoutube(result[1]).then(playRandomVideo) : null;
     }
 };

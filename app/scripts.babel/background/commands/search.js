@@ -4,7 +4,7 @@ function search(term) {
             url: `http://www.google.com/search?as_q=${term}`
         });
 
-        resolve(url);
+        resolve();
     });
 }
 
