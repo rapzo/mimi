@@ -19,8 +19,8 @@ const commands = [
 function isMimiCommand(transcript) {
     const prefix = ['ok', 'okay', 'hey'].join('|');
     const ids = ['meetme', 'meet me', 'mimi', 'mini'].join('|');
-
     const re = new RegExp(`(${prefix})?${ids}(.*)`, 'i');
+
     return re.test(transcript);
 }
 
@@ -46,7 +46,6 @@ exports.execute = function execute(transcript) {
         if (!isMimiCommand(transcript)) { return reject(); }
 
         const command = getCommand(transcript);
-        console.log(command)
         command ? resolve(command.fn(transcript)) : reject();
     });
 }
