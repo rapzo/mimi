@@ -14,7 +14,10 @@ module.exports = {
                 },
                 optional: []
             }
-            usermedia.getImage(options);
+
+            usermedia.getImage(options).then((dataURL) => {
+                localStorage.setItem('image', dataURL);
+            });
         });
     }
 };

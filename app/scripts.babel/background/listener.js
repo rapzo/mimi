@@ -5,7 +5,10 @@ let dialog;
 
 function clear() {
     localStorage.setItem('listening', false);
-    setTimeout(() => localStorage.setItem('sentence', ''), 500);
+    setTimeout(() => {
+        localStorage.setItem('sentence', '');
+        localStorage.setItem('image', '');
+    }, 500);
 }
 
 module.exports = function listen() {

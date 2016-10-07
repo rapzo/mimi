@@ -5,6 +5,9 @@ module.exports = {
     fn: () => {
         console.log('LETS TAKE A SELFIE');
         const options = true;
-        return usermedia.getImage(options);
+
+        return usermedia.getImage(options).then((dataURL) => {
+            localStorage.setItem('image', dataURL);
+        });
     }
 };

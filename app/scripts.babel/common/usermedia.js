@@ -40,10 +40,22 @@ const downloadFile = (elm, url) => {
 
 };
 
+const getSnapshot = (ctx, canvas, video, stream) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+           ctx.drawImage(video, 0, 0);
+
+           return resolve({
+               dataURL: canvas.toDataURL('image/png'),
+               stream
+           });
+       }, 1000);
+    });
+}
+
 /**
  * take a snapshot
  */
-
 const getImage = (options) => {
     console.log('getImage');
     // create needed objects to create a snapshot
@@ -57,27 +69,24 @@ const getImage = (options) => {
     canvas.height = options.mandatory ? options.mandatory.maxHeight : 720;
 
     // get local stream using getUserMedia API
-    getUserMedia(options)
-    .then( (stream) => {
-        // associate a localstream to the video src attribute
-        video.src = window.URL.createObjectURL(stream);
-        setTimeout(() => {
-           if (stream) {
-               ctx.drawImage(video, 0, 0);
-               let dataUrl = canvas.toDataURL('image/png');
-
-               downloadFile(link, dataUrl)
-               .then(()=>{
-                   stopUserMedia(stream);
-                   resetElements([video, canvas, link]);
-               });
-
+    return getUserMedia(options)
+        .then((stream) => {
+            if (!stream) {
+                return;
             }
-       }, 1000);
-    } )
-    .catch( (e)=>{
-        throw e;
-    } );
+
+            // associate a localstream to the video src attribute
+            video.src = window.URL.createObjectURL(stream);
+            return getSnapshot(ctx, canvas, video, stream);
+        })
+        .then((result) => {
+            downloadFile(link, result.dataURL).then(() => {
+                stopUserMedia(result.stream);
+                resetElements([video, canvas, link]);
+            });
+
+            return result.dataURL;
+        });
 }
 
 
